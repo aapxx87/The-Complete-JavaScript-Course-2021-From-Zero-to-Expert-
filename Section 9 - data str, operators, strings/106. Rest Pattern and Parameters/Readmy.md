@@ -1,12 +1,13 @@
-# 107. Short Circuiting (&& and ||)
-link: https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648547#overview
+# 106. Rest Pattern and Parameters
+link: https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648543#overview
 
 
 [Theory]
 
-Three properties about logical operatos:
-thet can use any data type, return any data type, short-circuiting
+Rest(остальное) - когда нам нужно элементы превышающие необходимые запаковать в отдельный массив к примеру. Ну или когда мы не знаем количество элементов.
 
+
+rest для массивов и объектов
 
 
 [Steps]

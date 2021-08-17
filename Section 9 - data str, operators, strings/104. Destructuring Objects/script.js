@@ -51,9 +51,6 @@ restaurant.orderDelivery({
 
 
 
-
-
-
 // --- для деструктурирование объекта мы должны переменные назвать ровно так-же как и свойства объекта, порядок следование не важен
 const { name, openingHours, categories } = restaurant
 // console.log(name, openingHours, categories);

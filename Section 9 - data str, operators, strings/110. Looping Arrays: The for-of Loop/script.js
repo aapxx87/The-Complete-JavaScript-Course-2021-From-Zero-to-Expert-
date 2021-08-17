@@ -53,7 +53,7 @@ const menu = [...restaurant.starterMenu, ...restaurant.mainMenu]
 for (const item of menu) console.log(item);
 
 
-// --- допустим нужно получить индекс каждого элемента
+// --- допустим нужно получить индекс каждого элемента, добавляем .entries()
 for (const item of menu.entries()) {
   // console.log(item);
 

@@ -100,22 +100,3 @@ console.log(p, q, r);
 
 
 
-// ----------- моя практика
-console.log('----------- моя практика');
-
-const newArrayMy = ['one', 'two', 'tree']
-
-const [a2, b2, c2] = newArrayMy
-
-// console.log(a2, b2, c2);
-
-
-const [, , fourth, fifth] = restaurant.starterMenu
-
-// console.log(fourth, fifth);
-
-
-const mainMenuMy = restaurant.mainMenu
-
-console.log(mainMenuMy);
-

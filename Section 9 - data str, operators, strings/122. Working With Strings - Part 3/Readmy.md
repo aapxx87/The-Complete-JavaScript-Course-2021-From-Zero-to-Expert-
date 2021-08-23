@@ -4,9 +4,14 @@ link: https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/
 [Theory]
 
 
+split method - разделяет строку и сохраняет ее в массив по поределенному аргументу
 
+join  method
+
+padding strings
 
 [Steps]
 
 
 
+13:00

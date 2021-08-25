@@ -1,5 +1,5 @@
-# 131. Functions Returning Functions
-link: https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648657#overview
+# 132. The call and apply Methods
+link: https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/22648663#overview
 
 [Theory]
 

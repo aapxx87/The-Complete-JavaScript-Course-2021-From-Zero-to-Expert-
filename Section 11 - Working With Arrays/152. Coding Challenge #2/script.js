@@ -69,7 +69,6 @@ const displayMovements = function (movements) {
 
   movements.forEach(function (mov, i) {
 
-
     const type = mov > 0 ? 'deposit' : 'withdrawal'
 
     const html = `
@@ -87,27 +86,105 @@ const displayMovements = function (movements) {
 displayMovements(account1.movements)
 
 
-// Step 1
 
-// Представим, что это евро, и нам нужно сконвертировать их в доллары
+
+// 151
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// курс конвертации
+const balance = movements.reduce(function (acc, cur, i, arr) {
+  // console.log(`Iteration ${i}: ${acc}`);
+  return acc + cur
+}, 0)
+
+// console.log(balance);
+
+
+// * Step 2
+
+const calcDisplayBalance = function (obj) {
+
+  const mov = obj.movements
+
+  const value = mov.reduce(function (acc, cur) {
+    return acc + cur
+  }, 0)
+
+  labelBalance.textContent = `${value} EUR`
+
+}
+
+calcDisplayBalance(account1)
+
+// 151
+// Maximum value
+
+const maxValue = movements.reduce(function (acc, cur) {
+
+  if (acc > cur) {
+    return acc
+  } else {
+    return cur
+  }
+
+}, movements[0])
+
+
+// console.log(maxValue);
+
+
+
+
+
+
+
+// 149
+const createUsernames = function (accs) {
+
+  accs.forEach(function (acc) {
+
+    acc.username = acc.owner.toLowerCase().split(' ').map(function (name) {
+      return name[0]
+    }).join('')
+
+  })
+
+}
+
+createUsernames(accounts)
+
+
+
+
+// 149
+// Мой вариант
+// const userArr = user.split(' ')
+// console.log(userArr);
+// const userArrShort = userArr.map(function (string) {
+//   return string.slice(0, 1).toLowerCase()
+// })
+// console.log(userArrShort);
+// const finalnameArr = userArrShort.join('')
+// console.log(finalnameArr);
+
+
+
+
+
+
+// 148
+/*
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
 const eurToUsd = 1.1
 
-// в аргумент мы передаем каждый отдельный элемент массива, который будем рпеобразовывать
-// в случае с мэп мы используем колбек функцию для решения задачи. Если бы мы использовали ФорИч то мы бы итерировали циклом массив и пушили в новый.
 const movementsUSD = movements.map(function (mov) {
-  // в колбек функции мы возвращаем то, что хотим чтобы было в новом массиве на месте каждого элемента
+
   return mov * eurToUsd
 
 })
 
-console.log(movementsUSD);
+// console.log(movementsUSD);
 
-
-
-// метод мэп также как и ФорИч имеет доступ к номеру элемента в массиве, и всему массиву
 const movementsDescriptions = movements.map(function (mov, i, arr) {
 
   if (mov > 0) {
@@ -124,6 +201,72 @@ const movementsDescriptions = movements.map(function (mov, i, arr) {
 
 console.log(movementsDescriptions);
 
+*/
+
+
+
+
+// 151
+/*
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// фильтр то же итерирует текущий элемент массива, но может принимать также и индекс и весь массив
+// создадим массив только депозитов, то есть только элементов с положительным знаком
+
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+})
+
+console.log(deposits);
+
+
+const withdrowals = movements.filter(function (mov) {
+  return mov < 0
+})
+
+console.log(withdrowals);
+*/
+
+
+
+
+
+
+
+
+
+// Challenge 2
+
+
+const calcAverageHumanAge = function (arr) {
+
+
+  const humanAge = arr.map(function (item) {
+
+    if (item <= 2) {
+      return 2 * item
+    } else {
+      return 16 + item * 4
+    }
+
+  }).filter(function (item) {
+    return item > 18
+  })
+
+  const humanAverAge = humanAge.reduce(function (acc, cur) {
+    return acc + cur
+  })
+
+  console.log(humanAverAge);
+
+  console.log(humanAge);
+
+
+
+  return humanAverAge / humanAge.length
+
+
+}
 
 
 
@@ -134,19 +277,11 @@ console.log(movementsDescriptions);
 
 
 
+const dataOne = [5, 2, 4, 1, 15, 8, 3]
+const dataTwo = [16, 6, 10, 5, 6, 1, 4]
 
 
-
-
-
-
-
-
-
-
-
-
-
+console.log(calcAverageHumanAge(dataOne));
 
 
 

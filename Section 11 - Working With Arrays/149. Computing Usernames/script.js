@@ -69,7 +69,6 @@ const displayMovements = function (movements) {
 
   movements.forEach(function (mov, i) {
 
-
     const type = mov > 0 ? 'deposit' : 'withdrawal'
 
     const html = `
@@ -87,27 +86,85 @@ const displayMovements = function (movements) {
 displayMovements(account1.movements)
 
 
-// Step 1
 
-// Представим, что это евро, и нам нужно сконвертировать их в доллары
+
+
+
+// Step 1
+const user = 'Steven Thomas Williams'; // должны получить вот такой результат stw
+
+// приводим все символы в строке к нижнему регистру, затем сразу разбиваем строку на отдельные слова по пробелу методом split
+// мы можем вызвать метод map сразу в данной строке
+// и после метода map сразу вызываем метод join
+// const username = user.toLowerCase().split(' ').map(function (name) {
+//   return name[0]
+// }).join('')
+
+// console.log(username);
+
+
+// Step 2 - запакуем все выше в функцию, мы не будем создавать новый массив, а изменим тот который передаем в функцию, то есть оригинальный, мы добавим в каждый объект новое свойство
+// в даннй функции мы не создаем новое значение, мы дизменяем имеющийся объект - добавляем новое свойство, поэтому тут нет return
+
+const createUsernames = function (accs) {
+  // мы передаем в функцию массив с названиеми объектов, которые содержат исходное имя
+
+  accs.forEach(function (acc) {
+    // на каждом цикле мы перебираем каждый объект и достаем из него имя - acc.owner
+    // создаем сразу новое свойство в каждом из объектов - acc.username
+
+    acc.username = acc.owner.toLowerCase().split(' ').map(function (name) {
+      return name[0]
+    }).join('')
+
+
+  })
+
+
+}
+
+
+createUsernames(accounts)
+
+console.log(accounts);
+
+
+
+// Мой вариант
+
+// const userArr = user.split(' ')
+// console.log(userArr);
+
+// const userArrShort = userArr.map(function (string) {
+
+//   return string.slice(0, 1).toLowerCase()
+
+// })
+
+// console.log(userArrShort);
+
+// const finalnameArr = userArrShort.join('')
+// console.log(finalnameArr);
+
+
+
+
+
+
+// 148
+/*
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// курс конвертации
 const eurToUsd = 1.1
 
-// в аргумент мы передаем каждый отдельный элемент массива, который будем рпеобразовывать
-// в случае с мэп мы используем колбек функцию для решения задачи. Если бы мы использовали ФорИч то мы бы итерировали циклом массив и пушили в новый.
 const movementsUSD = movements.map(function (mov) {
-  // в колбек функции мы возвращаем то, что хотим чтобы было в новом массиве на месте каждого элемента
+
   return mov * eurToUsd
 
 })
 
-console.log(movementsUSD);
+// console.log(movementsUSD);
 
-
-
-// метод мэп также как и ФорИч имеет доступ к номеру элемента в массиве, и всему массиву
 const movementsDescriptions = movements.map(function (mov, i, arr) {
 
   if (mov > 0) {
@@ -124,7 +181,7 @@ const movementsDescriptions = movements.map(function (mov, i, arr) {
 
 console.log(movementsDescriptions);
 
-
+*/
 
 
 

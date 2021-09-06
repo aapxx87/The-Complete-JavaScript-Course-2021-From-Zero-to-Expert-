@@ -35,6 +35,8 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
+
+
 // Elements
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
@@ -62,13 +64,12 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 
-// 145
+// ---- 145
 const displayMovements = function (movements) {
 
   containerMovements.innerHTML = ''
 
   movements.forEach(function (mov, i) {
-
 
     const type = mov > 0 ? 'deposit' : 'withdrawal'
 
@@ -78,7 +79,6 @@ const displayMovements = function (movements) {
       <div class="movements__value">${mov}</div>
      </div>
     `
-
     containerMovements.insertAdjacentHTML('afterbegin', html)
 
   })
@@ -87,27 +87,21 @@ const displayMovements = function (movements) {
 displayMovements(account1.movements)
 
 
-// Step 1
 
-// Представим, что это евро, и нам нужно сконвертировать их в доллары
+// ---- 148
+/*
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// курс конвертации
 const eurToUsd = 1.1
 
-// в аргумент мы передаем каждый отдельный элемент массива, который будем рпеобразовывать
-// в случае с мэп мы используем колбек функцию для решения задачи. Если бы мы использовали ФорИч то мы бы итерировали циклом массив и пушили в новый.
 const movementsUSD = movements.map(function (mov) {
-  // в колбек функции мы возвращаем то, что хотим чтобы было в новом массиве на месте каждого элемента
+
   return mov * eurToUsd
 
 })
 
-console.log(movementsUSD);
+// console.log(movementsUSD);
 
-
-
-// метод мэп также как и ФорИч имеет доступ к номеру элемента в массиве, и всему массиву
 const movementsDescriptions = movements.map(function (mov, i, arr) {
 
   if (mov > 0) {
@@ -123,10 +117,231 @@ const movementsDescriptions = movements.map(function (mov, i, arr) {
 })
 
 console.log(movementsDescriptions);
+*/
 
 
 
 
+// ---- 149
+const createUsernames = function (accs) {
+
+  accs.forEach(function (acc) {
+
+    acc.username = acc.owner.toLowerCase().split(' ').map(function (name) {
+      return name[0]
+    }).join('')
+
+  })
+
+}
+
+createUsernames(accounts)
+
+
+
+
+// ---- 149
+// Мой вариант
+// const userArr = user.split(' ')
+// console.log(userArr);
+// const userArrShort = userArr.map(function (string) {
+//   return string.slice(0, 1).toLowerCase()
+// })
+// console.log(userArrShort);
+// const finalnameArr = userArrShort.join('')
+// console.log(finalnameArr);
+
+
+
+
+
+
+// ---- 151
+/*
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// фильтр то же итерирует текущий элемент массива, но может принимать также и индекс и весь массив
+// создадим массив только депозитов, то есть только элементов с положительным знаком
+
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+})
+
+console.log(deposits);
+
+
+const withdrowals = movements.filter(function (mov) {
+  return mov < 0
+})
+
+console.log(withdrowals);
+*/
+
+
+
+// ---- 151
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const balance = movements.reduce(function (acc, cur, i, arr) {
+  // console.log(`Iteration ${i}: ${acc}`);
+  return acc + cur
+}, 0)
+
+// console.log(balance);
+
+
+// ---- 151
+// Maximum value
+const maxValue = movements.reduce(function (acc, cur) {
+
+  if (acc > cur) {
+    return acc
+  } else {
+    return cur
+  }
+
+}, movements[0])
+
+// console.log(maxValue);
+
+
+
+
+// ---- 151
+const calcDisplayBalance = function (obj) {
+
+  const mov = obj.movements
+
+  const value = mov.reduce(function (acc, cur) {
+    return acc + cur
+  }, 0)
+
+  labelBalance.textContent = `${value} EUR`
+
+}
+
+calcDisplayBalance(account1)
+
+
+
+/*
+// ---- 152 Challenge 2
+const calcAverageHumanAge = function (arr) {
+
+  const humanAge = arr.map(function (item) {
+
+    if (item <= 2) {
+      return 2 * item
+    } else {
+      return 16 + item * 4
+    }
+
+  }).filter(function (item) {
+    return item > 18
+  })
+
+  const humanAverAge = humanAge.reduce(function (acc, cur) {
+    return acc + cur
+  })
+
+  console.log(humanAverAge);
+
+  console.log(humanAge);
+
+  return humanAverAge / humanAge.length
+
+}
+
+const dataOne = [5, 2, 4, 1, 15, 8, 3]
+const dataTwo = [16, 6, 10, 5, 6, 1, 4]
+
+console.log(calcAverageHumanAge(dataOne));
+*/
+
+
+
+
+
+// * Step 1 - movements опредеелена в начале
+
+const eurToUsd = 1.1
+
+// нам нужны для начала только депозиты
+// результатом метода filter будет сразу новый массив
+// методом map мы конвертим eur в usd
+// в конце применяем метод reduce, чтобы все посчитать единым числом
+const totalDepositsUSD = movements
+  .filter(mov => mov > 0)
+  .map(mov => mov * eurToUsd)
+  .reduce((acc, mov) => acc + mov, 0)
+
+console.log(totalDepositsUSD);
+
+
+// * Step 2 - скалькулируем вывод в интефейс суммарное значение депозитов и выводом
+
+
+// Мой вариант
+/*
+const calcDisplaySummary = function (arr) {
+
+  const arrIn = arr.filter(function (mov) {
+    return mov > 0
+  })
+
+  const totalIn = arrIn.reduce(function (acc, cur) {
+    return acc + cur
+  }, 0)
+
+
+  labelSumIn.textContent = totalIn
+
+
+  const arrOut = arr.filter(function (mov) {
+    return mov < 0
+  })
+
+  const totalOut = Math.abs(arrOut.reduce(function (acc, cur) {
+    return acc + cur
+  }, 0))
+
+
+  labelSumOut.textContent = totalOut
+
+}
+
+calcDisplaySummary(account1.movements)
+*/
+
+
+const calcDisplaySummary = function (movements) {
+
+  const incomes = movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)
+
+  labelSumIn.textContent = `${incomes} EUR`
+
+
+  const out = Math.abs(movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0))
+
+  labelSumOut.textContent = `${out} EUR`
+
+  const interest = movements
+    .filter(mov => mov > 0)
+    .map(deposit => deposit * 1.2 / 100)
+    .filter((int, i, arr) => {
+      console.log(arr);
+      return int >= 1
+    })
+    .reduce((acc, int) => acc + int, 0)
+
+
+  labelSumInterest.textContent = interest
+
+
+
+}
+
+calcDisplaySummary(account1.movements)
 
 
 

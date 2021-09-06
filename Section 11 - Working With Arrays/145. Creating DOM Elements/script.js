@@ -65,13 +65,14 @@ const inputClosePin = document.querySelector('.form__input--pin');
 // Step 1 - мы будем передавать в функцию массив movements из объекта account и с этим массивом мы уже будем работать - выводить в интерфейс
 const displayMovements = function (movements) {
 
+  // перед тем как втсавлять наш код, очистим html от предпрописаного кода
+  // innerHTML чем-то схож с textContent, только возвращает все html содержимое
+  // containerMovements.innerHTML = '';
+  containerMovements.innerHTML = '';
+
   // функция получает массив с данными, по которому мы пройдемся методом forEach
   // нам нужен будет сам элемент и его индекс, так как в интерфейсе у нас есть порядковый номер операции
   movements.forEach(function (mov, i) {
-
-    // перед тем как втсавлять наш код, очистим html от предпрописаного кода
-    // innerHTML чем-то схож с textContent, только возвращает все html содержимое
-    containerMovements.innerHTML = ''
 
     // в блоке html нам к каждому движению нужно добавить тег deposit или withdraw в зависимости от того + или - значение элемента. Кроме того этоа переменная пойдет и в класс элемента, так как от этого зависит цвет - зеленый или синий
     const type = mov > 0 ? 'deposit' : 'withdrawal'

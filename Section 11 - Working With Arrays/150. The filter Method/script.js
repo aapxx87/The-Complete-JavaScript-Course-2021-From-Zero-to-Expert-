@@ -69,7 +69,6 @@ const displayMovements = function (movements) {
 
   movements.forEach(function (mov, i) {
 
-
     const type = mov > 0 ? 'deposit' : 'withdrawal'
 
     const html = `
@@ -87,27 +86,58 @@ const displayMovements = function (movements) {
 displayMovements(account1.movements)
 
 
-// Step 1
 
-// Представим, что это евро, и нам нужно сконвертировать их в доллары
+
+
+
+// 149
+const createUsernames = function (accs) {
+
+  accs.forEach(function (acc) {
+
+    acc.username = acc.owner.toLowerCase().split(' ').map(function (name) {
+      return name[0]
+    }).join('')
+
+  })
+
+}
+
+createUsernames(accounts)
+
+
+
+
+// 149
+// Мой вариант
+// const userArr = user.split(' ')
+// console.log(userArr);
+// const userArrShort = userArr.map(function (string) {
+//   return string.slice(0, 1).toLowerCase()
+// })
+// console.log(userArrShort);
+// const finalnameArr = userArrShort.join('')
+// console.log(finalnameArr);
+
+
+
+
+
+
+// 148
+/*
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-// курс конвертации
 const eurToUsd = 1.1
 
-// в аргумент мы передаем каждый отдельный элемент массива, который будем рпеобразовывать
-// в случае с мэп мы используем колбек функцию для решения задачи. Если бы мы использовали ФорИч то мы бы итерировали циклом массив и пушили в новый.
 const movementsUSD = movements.map(function (mov) {
-  // в колбек функции мы возвращаем то, что хотим чтобы было в новом массиве на месте каждого элемента
+
   return mov * eurToUsd
 
 })
 
-console.log(movementsUSD);
+// console.log(movementsUSD);
 
-
-
-// метод мэп также как и ФорИч имеет доступ к номеру элемента в массиве, и всему массиву
 const movementsDescriptions = movements.map(function (mov, i, arr) {
 
   if (mov > 0) {
@@ -124,15 +154,29 @@ const movementsDescriptions = movements.map(function (mov, i, arr) {
 
 console.log(movementsDescriptions);
 
+*/
 
 
 
 
+// Step 1
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// фильтр то же итерирует текущий элемент массива, но может принимать также и индекс и весь массив
+// создадим массив только депозитов, то есть только элементов с положительным знаком
+
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+})
+
+console.log(deposits);
 
 
+const withdrowals = movements.filter(function (mov) {
+  return mov < 0
+})
 
-
-
+console.log(withdrowals);
 
 
 

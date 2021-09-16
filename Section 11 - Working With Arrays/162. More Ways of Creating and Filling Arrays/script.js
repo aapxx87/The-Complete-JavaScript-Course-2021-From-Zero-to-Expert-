@@ -37,6 +37,12 @@ const accounts = [account1, account2, account3, account4];
 
 
 
+
+
+
+
+
+
 // Elements
 
 // Containers
@@ -85,11 +91,16 @@ const btnClose = document.querySelector('.form__btn--close');
 
 
 // ---- 145
-const displayMovements = function (movements) {
+
+// 161
+const displayMovements = function (movements, sort = false) {
 
   containerMovements.innerHTML = ''
 
-  movements.forEach(function (mov, i) {
+  // 161
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements
+
+  movs.forEach(function (mov, i) {
 
     const type = mov > 0 ? 'deposit' : 'withdrawal'
 
@@ -524,47 +535,43 @@ btnClose.addEventListener('click', function (e) {
 })
 
 
-// Step 1
-console.log(movements);
-console.log(movements.includes(-130));
 
-console.log(movements.some(mov => mov === -130));
 
-// Equality
-// Допустим мы хотим понять, есть ли хоть один депозит в массиве движения средств (или там толко выводы), депозит - это любое число больше нуля
+
+
+// 159
+// console.log(movements);
+// console.log(movements.includes(-130));
+
+// console.log(movements.some(mov => mov === -130));
+
 const anyDeposits = movements.some(function (mov) {
   return mov > 0
 })
 
-console.log(anyDeposits);
+// console.log(anyDeposits);
 
-// Some: Condition - достаточно хотя бы одного элемента удовлетворяющего требованиям
-// Теперь допустим мы хотим проверить, есть ли хоть один депозит > 5000
+// 159
 const anyDeposits5000 = movements.some(function (mov) {
   return mov > 5000
 })
 
-console.log(anyDeposits5000);
+// console.log(anyDeposits5000);
+
+// console.log(movements.every(mov => mov >= 0));
 
 
-// Every: Condition - true  если все элементы массива удовлетворяют требованиям
-console.log(movements.every(mov => mov >= 0));
-
-
-// Step 2
+// 159
 btnLoan.addEventListener('click', function (e) {
 
   e.preventDefault()
 
   const amount = Number(inputLoanAmount.value)
 
-  // прописываем условия
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
 
-    // add movement
     currentAccount.movements.push(amount)
 
-    // Update UI
     updateUI(currentAccount)
 
   }
@@ -574,28 +581,107 @@ btnLoan.addEventListener('click', function (e) {
 })
 
 
-// Step 3 - separate callback
+// 159
 const deposit = function (mov) {
-
   return mov > 0
-
 }
 
-console.log(movements.some(deposit));
-console.log(movements.every(deposit));
-console.log(movements.filter(deposit));
+// console.log(movements.some(deposit));
+// console.log(movements.every(deposit));
+// console.log(movements.filter(deposit));
+
+
+
+// 160
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8]
+
+// console.log(arr.flat()); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8]
+
+// console.log(arrDeep.flat()); // [[1, 2], 3, 4, [5, 6], 7, 8]
+
+// console.log(arrDeep.flat(2)); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+// 160
+const allMov = accounts.map(function (item) {
+  return item.movements
+}).flat().reduce((acc, mov) => acc + mov, 0)
+
+// console.log(allMov);
+
+// 160
+const allMov2 = accounts.flatMap(function (item) {
+  return item.movements
+}).reduce((acc, mov) => acc + mov, 0)
+
+// console.log(allMov2);
 
 
 
 
 
+// 161
+const owners = ['Jonas', 'Zach', 'Adam', 'Marta']
+
+console.log(owners.sort());
+// ['Adam', 'Jonas', 'Marta', 'Zach']
+
+console.log(movements); // [200, 450, -400, 3000, -650, -130, 70, 1300]
+console.log(movements.sort()); // [-130, -400, -650, 1300, 200, 3000, 450, 70]
+
+// вариант сортировки чисел при помощи коллбека
+// мы передаем в функцию параметр а и в, где а - это current value, а в - next value
+// return < 0, A, B (keep order)
+// return > 0, B, A (switch order)
+
+// Сортировка по возрастанию
+movements.sort(function (a, b) {
+  if (a > b) {
+    return 1
+  } else if (b > a) {
+    return -1
+  }
+})
+// более простая запись 
+movements.sort((a, b) => a - b)
 
 
 
+// console.log(movements); // [-130, -400, -650, 1300, 200, 3000, 450, 70]
+
+// если мы хотим сортировку в обратном порядке то делаем по другому
+
+// Сортировка по убыванию
+movements.sort(function (a, b) {
+  if (a < b) {
+    return 1
+  } else if (b < a) {
+    return -1
+  }
+})
+
+// более простая запись 
+movements.sort((a, b) => b - a)
+
+// console.log(movements); // [3000, 1300, 450, 200, 70, -130, -400, -650]
 
 
 
+// 161
+let sorted = false
 
+btnSort.addEventListener('click', function (e) {
+
+  e.preventDefault()
+
+  displayMovements(currentAccount.movements, !sorted)
+
+  sorted = !sorted
+
+})
 
 
 

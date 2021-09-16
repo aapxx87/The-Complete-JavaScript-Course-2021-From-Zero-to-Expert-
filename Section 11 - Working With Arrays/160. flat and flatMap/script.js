@@ -37,6 +37,12 @@ const accounts = [account1, account2, account3, account4];
 
 
 
+
+
+
+
+
+
 // Elements
 
 // Containers
@@ -524,47 +530,43 @@ btnClose.addEventListener('click', function (e) {
 })
 
 
-// Step 1
+
+
+
+
+// 159
 console.log(movements);
 console.log(movements.includes(-130));
 
 console.log(movements.some(mov => mov === -130));
 
-// Equality
-// Допустим мы хотим понять, есть ли хоть один депозит в массиве движения средств (или там толко выводы), депозит - это любое число больше нуля
 const anyDeposits = movements.some(function (mov) {
   return mov > 0
 })
 
 console.log(anyDeposits);
 
-// Some: Condition - достаточно хотя бы одного элемента удовлетворяющего требованиям
-// Теперь допустим мы хотим проверить, есть ли хоть один депозит > 5000
+// 159
 const anyDeposits5000 = movements.some(function (mov) {
   return mov > 5000
 })
 
 console.log(anyDeposits5000);
 
-
-// Every: Condition - true  если все элементы массива удовлетворяют требованиям
 console.log(movements.every(mov => mov >= 0));
 
 
-// Step 2
+// 159
 btnLoan.addEventListener('click', function (e) {
 
   e.preventDefault()
 
   const amount = Number(inputLoanAmount.value)
 
-  // прописываем условия
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
 
-    // add movement
     currentAccount.movements.push(amount)
 
-    // Update UI
     updateUI(currentAccount)
 
   }
@@ -574,21 +576,45 @@ btnLoan.addEventListener('click', function (e) {
 })
 
 
-// Step 3 - separate callback
+// 159
 const deposit = function (mov) {
-
   return mov > 0
-
 }
 
-console.log(movements.some(deposit));
-console.log(movements.every(deposit));
-console.log(movements.filter(deposit));
+// console.log(movements.some(deposit));
+// console.log(movements.every(deposit));
+// console.log(movements.filter(deposit));
 
 
 
+// Step 1 - допустим у нас Array с nested внутри
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8]
+
+// и нам нужно объединить все элементы в один единый массив - flat method
+console.log(arr.flat()); // [1, 2, 3, 4, 5, 6, 7, 8]
 
 
+
+const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8]
+// flat метод дает 1 level deep
+console.log(arrDeep.flat()); // [[1, 2], 3, 4, [5, 6], 7, 8]
+
+// мы можем указать уровни глубины объединения 
+console.log(arrDeep.flat(2)); // [1, 2, 3, 4, 5, 6, 7, 8]
+
+// Step 2
+const allMov = accounts.map(function (item) {
+  return item.movements
+}).flat().reduce((acc, mov) => acc + mov, 0)
+
+console.log(allMov);
+
+// Step 3 - возвращает все тоже самое что и метод мmap
+const allMov2 = accounts.flatMap(function (item) {
+  return item.movements
+}).reduce((acc, mov) => acc + mov, 0)
+
+console.log(allMov2);
 
 
 

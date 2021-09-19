@@ -43,6 +43,7 @@ const accounts = [account1, account2, account3, account4];
 
 
 
+
 // Elements
 
 // Containers
@@ -690,10 +691,10 @@ btnSort.addEventListener('click', function (e) {
 
 
 
-// Step 1 - так мы создавали массивы до данного момента, в данных кейсах у нас уже были данные
-console.log([1, 2, 3, 4, 5]);
+// 162 - так мы создавали массивы до данного момента, в данных кейсах у нас уже были данные
+// console.log([1, 2, 3, 4, 5]);
 // [1, 2, 3, 4, 5]
-console.log(new Array(1, 2, 3, 4, 5));
+// console.log(new Array(1, 2, 3, 4, 5));
 // [1, 2, 3, 4, 5]
 
 // * Empty arr + fill
@@ -702,11 +703,11 @@ console.log(new Array(1, 2, 3, 4, 5));
 const x = new Array(7)
 // если мы используем в качестве аргунемнта один элемент, то получим массив с таким количеством путсых позиций
 
-console.log(x);
+// console.log(x);
 // [empty × 7] - мы получили массив с 7 пустыми элементами, он ничего не содержит
 
 // заполнить такой массив методом map мы тоже не сможем
-console.log(x.map(() => 5)); // [empty × 7]
+// console.log(x.map(() => 5)); // [empty × 7]
 
 // но мы можем использовать метод fill
 // x.fill(1)
@@ -720,24 +721,24 @@ console.log(x.map(() => 5)); // [empty × 7]
 
 // в том числе мы можем указать не только стартовую позицию но и конечную для заполнения
 x.fill(1, 3, 5)
-console.log(x);
+// console.log(x);
 // [empty × 3, 1, 1, empty × 2]
 
 // можем заполнить уже массив с данными
 const arr2 = [1, 2, 3, 4, 5, 6, 7]
 arr2.fill(23, 4, 6)
-console.log(arr2);
+// console.log(arr2);
 //[1, 2, 3, 4, 23, 23, 7]
 
 
 // Более чистый вариант создания массива - Array.from - Array - в данном случае объект и мы вызываем у него метод from - длинна массива 7, и на каждой позиции ставим 1 - аналогично методу map
 const y = Array.from({ length: 7 }, () => 1)
-console.log(y);
+// console.log(y);
 // [1, 1, 1, 1, 1, 1, 1]
 
 // пример азполнения массива значениями от 1 до 7
 const z = Array.from({ length: 7 }, (cur, i) => i + 1)
-console.log(z);
+// console.log(z);
 // [1, 2, 3, 4, 5, 6, 7]
 
 
@@ -767,6 +768,199 @@ labelBalance.addEventListener('click', function () {
   console.log(movementsUI2);
 
 })
+
+
+
+
+
+// 164
+
+const allDeposits = accounts.map((acc) => acc.movements).flat().filter((acc) => acc > 0).reduce((acc, cur) => acc = acc + cur)
+
+// console.log(allDeposits);
+
+// 164
+
+// вариант 1
+// const allDepositsMore1000 = accounts.flatMap((acc) => acc.movements).filter((acc) => acc >= 1000).length
+// console.log(allDepositsMore1000);
+
+// вариант 2
+const allDepositsMore1000 = accounts.flatMap((acc) => acc.movements).reduce((count, cur) => cur >= 1000 ? count + 1 : count, 0)
+// console.log(allDepositsMore1000);
+
+
+// 164
+const sums = accounts.flatMap((acc) => acc.movements).reduce((sums, cur) => {
+  // cur > 0 ? sums.deposits = sums.deposits + cur : sums.withdrawals = sums.withdrawals + cur
+
+  // алернативный вариант 
+  sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur
+
+  return sums
+
+}, { deposits: 0, withdrawals: 0 })
+
+
+// console.log(sums);
+
+//  пример с массивом
+
+const sumsArr = accounts.flatMap((acc) => acc.movements).reduce((sums, cur) => {
+
+  cur > 0 ? sums[0] = sums[0] + cur : sums[1] = sums[1] + cur
+
+  return sums
+
+}, [0, 0])
+
+// console.log(sumsArr);
+
+
+
+// 164
+
+const str = 'this is a NICE title'
+
+const strArr = str.toLowerCase().split(' ').
+  map((curWord) => curWord.length > 1 ? curWord.replace(curWord[0], curWord[0].toUpperCase()) : curWord).join(' ')
+
+
+
+// console.log(strArr);
+
+// алттеннативный вариант
+const convertTitleCase = function (title) {
+
+  const exeption = ['a', 'an', 'the']
+
+  const titleCase = title.toLowerCase().split(' ').map(word => exeption.includes(word) ? word : word[0].toUpperCase() + word.slice(1)).join(' ')
+
+  return titleCase
+
+
+}
+
+// console.log(convertTitleCase(str));
+
+
+// const dogs2 = [{ weight: 22, curFood: 250, owners: ['Alice', 'Bob'] }];
+// console.log(dogs2);
+
+
+
+const dogs = [{ weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+{ weight: 8, curFood: 200, owners: ['Matilda'] },
+{ weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+{ weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// console.log(dogs);
+
+
+// Task 1
+console.log('-------- Task 1 ----------');
+
+
+dogs.forEach(function (dog) {
+  dog.recommendedFood = dog.weight ** 0.75 * 28
+})
+
+console.log(dogs);
+
+
+
+
+// Task 2
+console.log('-------- Task 2 ----------');
+
+
+const saraDog = dogs.find(function (item) {
+  return item.owners.includes('Sarah')
+})
+
+// console.log(saraDog);
+
+if (saraDog.curFood > saraDog.recommendedFood * 1.1) {
+  console.log('Перебор с едой');
+} else if (saraDog.curFood < saraDog.recommendedFood * 0.9) {
+  console.log(dogs[index].recommendedFood);
+}
+
+
+
+
+
+// Task 3
+console.log('-------- Task 3 ----------');
+
+
+const ownersEatTooMuch = []
+
+const ownersEatTooLittle = []
+
+
+dogs.forEach(function (dog) {
+
+  if (dog.curFood > dog.recommendedFood * 1.1) {
+
+    ownersEatTooMuch.push(...dog.owners)
+
+  } else if (dog.curFood < dog.recommendedFood * 0.9) {
+
+    ownersEatTooLittle.push(...dog.owners)
+
+  } else {
+
+  }
+
+})
+
+console.log('To much:', ownersEatTooMuch);
+console.log('To little:', ownersEatTooLittle);
+
+
+
+
+
+// Task 4
+console.log('-------- Task 4 ----------');
+
+console.log(ownersEatTooMuch.join(' and ') + "'s dogs eat too much!");
+console.log(ownersEatTooLittle.join(' and ') + "'s dogs eat too little!");
+
+
+
+
+// Task 5
+console.log('-------- Task 5 ----------');
+
+const ex = dogs.some(function (item, idx) {
+  console.log(dogs[idx]);
+  return item.curFood = item.recommendedFood
+
+})
+
+console.log(ex);
+
+
+
+
+// Task 6
+console.log('-------- Task 6 ----------');
+
+const exOk = dogs.some(function (item, idx) {
+  console.log(dogs[idx]);
+  return item.curFood = item.recommendedFood * 0.9 && item.recommendedFood * 1.1
+})
+
+console.log(exOk);
+
+
+
+
+
+
 
 
 

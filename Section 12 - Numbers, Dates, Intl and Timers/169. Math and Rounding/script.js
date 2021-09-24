@@ -89,11 +89,12 @@ const displayMovements = function (movements, sort = false) {
   movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
+    // Step 3
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${i + 1
       } ${type}</div>
-        <div class="movements__value">${mov}€</div>
+        <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `;
 
@@ -103,19 +104,22 @@ const displayMovements = function (movements, sort = false) {
 
 const calcDisplayBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance}€`;
+  // Step 3.1
+  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
 };
 
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumIn.textContent = `${incomes}€`;
+  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
 
   const out = acc.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
-  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  // Step 3.2
+  labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`;
 
   const interest = acc.movements
     .filter(mov => mov > 0)
@@ -125,7 +129,8 @@ const calcDisplaySummary = function (acc) {
       return int >= 1;
     })
     .reduce((acc, int) => acc + int, 0);
-  labelSumInterest.textContent = `${interest}€`;
+  // Step 3.3
+  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
 };
 
 const createUsernames = function (accs) {
@@ -204,7 +209,8 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
-  const amount = Number(inputLoanAmount.value);
+  // Step 2 - нам не нужно приводить значение из инпута к числу, так как метод floor  реализует type coercion - округляем вниз
+  const amount = Math.floor(inputLoanAmount.value);
 
   if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
     // Add movement
@@ -282,31 +288,66 @@ btnSort.addEventListener('click', function (e) {
 // Step 1
 
 // квадратный корень
-console.log(Math.sqrt(25));
-console.log(25 ** (1 / 2));
+// console.log(Math.sqrt(25));
+// console.log(25 ** (1 / 2));
 
 // кубический корень
-console.log(8 ** (1 / 3));
+// console.log(8 ** (1 / 3));
 
 // определение максимального числа из набора
-console.log(Math.max(5, 18, 23, 11, 2));
+// console.log(Math.max(5, 18, 23, 11, 2));
 
 // сработает даже если одно из чисел в строковом формате
-console.log(Math.max(5, 18, '23', 11, 2));
+// console.log(Math.max(5, 18, '23', 11, 2));
 
 // определение минимального числа из набора
-console.log(Math.min(5, 18, '23', 11, 2));
+// console.log(Math.min(5, 18, '23', 11, 2));
 
 // число PI
-console.log(Math.PI);
+// console.log(Math.PI);
 
 
 // генерация случайного числа между 0 и 1
-console.log(Math.random());
+// console.log(Math.random());
 
 // От 1 до 6
-console.log(Math.trunc(Math.random() * 6) + 1);
+// console.log(Math.trunc(Math.random() * 6) + 1);
 
 // генерация random integers between two values
-const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + 1)
+const randomInt = (min, max) => Math.trunc(Math.random() * (max - min) + 1) + min
+// если мы хотим генерировать числа в диапазоне негативных чисел то лучше использовать floor
+const randomInt2 = (min, max) => Math.floor(Math.random() * (max - min) + 1) + min
+
+// console.log(randomInt(10, 20));
+
+
+// Rounding integers
+// trunc - remove any decimal part
+// console.log(Math.trunc(23.34));  // 23
+
+// округляет либо в большую либо в меньшую сторону
+// console.log(Math.round(23.3));
+// console.log(Math.round(23.9));
+
+// округляет в большую сторону
+// console.log(Math.ceil(23.3));
+// console.log(Math.ceil(23.9));
+
+// округляет в меньшую сторону
+// console.log(Math.floor(23.3));
+// console.log(Math.floor(23.9));
+
+
+// в случае положительных чисел trunc и floor работают аналогично
+// а вот в случае отрицательных чисел - нет
+// console.log(Math.trunc(-23.3));  // -23
+// console.log(Math.floor(-23.3));  // -24
+
+
+// Rounding decimals - toFixed always returns a string, not a number. This is important to keep in mind.
+// console.log((2.3456).toFixed(1)); // 2.3
+
+// Конвертируем результат в число сразу
+// console.log(+(2.3).toFixed(3)); // 2.300
+
 

@@ -14,7 +14,7 @@ link: https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/
 3) сделаем отображение всех чисел с двумя знаками после запятой - имплементируем это везде где идет вывод чисел на дисплей - все в функции updateUI
 
 
-5:50
+
 
 
 

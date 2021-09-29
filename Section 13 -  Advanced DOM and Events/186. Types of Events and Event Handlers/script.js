@@ -40,6 +40,70 @@ document.addEventListener('keydown', function (e) {
 });
 
 
+// 185
+const btnScrollTo = document.querySelector('.btn--scroll-to')
+const section1 = document.querySelector('#section--1')
+
+
+btnScrollTo.addEventListener('click', function () {
+
+  const s1coords = section1.getBoundingClientRect()
+
+  section1.scrollIntoView({ behavior: 'smooth' })
+
+})
+
+
+
+
+
+
+
+
+
+// mouse event
+const h1 = document.querySelector('h1')
+
+const alertH1 = function (e) {
+  alert('Great! You are reading the heading!')
+
+  // затем удалим ивентхендлер
+  // h1.removeEventListener('mouseenter', alertH1)
+}
+
+h1.addEventListener('mouseenter', alertH1)
+
+
+// можем реализовать удаление по таймеру
+setTimeout(function () {
+  h1.removeEventListener('mouseenter', alertH1)
+  console.log('3sec');
+}, 3000)
+
+// альтернативный вариант - oldschool
+// h1.onmouseenter = function (e) {
+//   alert('Great! You are reading the heading!')
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -122,34 +186,34 @@ document.querySelector('.btn--close-cookie').addEventListener('click', function 
 
 
 
-// Step 1
+// 184
 // Styles
-message.style.backgroundColor = '#37383d'
-message.style.width = '120%'
+// message.style.backgroundColor = '#37383d'
+// message.style.width = '120%'
 
 // так мы можем получить только стили, которые пределили в ручную
-console.log(message.style.height);
-console.log(message.style.backgroundColor);
+// console.log(message.style.height);
+// console.log(message.style.backgroundColor);
 
 // получитьь стили мы можем при помощи
-console.log(getComputedStyle(message)); // получим огромный объект со списком стилей
+// console.log(getComputedStyle(message)); // получим огромный объект со списком стилей
 
-// правильнее указать какой именно стиль нам нужен 
-console.log(getComputedStyle(message).color);
-console.log(getComputedStyle(message).height);
+// // правильнее указать какой именно стиль нам нужен 
+// console.log(getComputedStyle(message).color);
+// console.log(getComputedStyle(message).height);
 
 // пример изменния стиля
 message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px'
 
 // пример работы с переменными (которые лежат в css в root)
-document.documentElement.style.setProperty('--color-primary', 'orangered')
+// document.documentElement.style.setProperty('--color-primary', 'orangered')
 
 
 // Attributes
 const logo = document.querySelector('.nav__logo')
-console.log(logo.src);
-console.log(logo.id);
-console.log(logo.className);
+// console.log(logo.src);
+// console.log(logo.id);
+// console.log(logo.className);
 
 // Set attributes
 logo.alt = 'bla bla bla'
@@ -158,18 +222,18 @@ logo.alt = 'bla bla bla'
 logo.setAttribute('company', 'Bankist')
 
 // Non-standart
-console.log(logo.designer);  // не работает
-console.log(logo.getAttribute('designer'));  // рабтает
+// console.log(logo.designer);  // не работает
+// console.log(logo.getAttribute('designer'));  // рабтает
 
 // Data attributes - атрибуты, которые начинаются с data
-console.log(logo.dataset.versionNumber);
+// console.log(logo.dataset.versionNumber);
 
 
 // Classes
-logo.classList.add('c', 'j')
-logo.classList.remove('c', 'j')
-logo.classList.toggle('c')
-logo.classList.contains('c')
+// logo.classList.add('c', 'j')
+// logo.classList.remove('c', 'j')
+// logo.classList.toggle('c')
+// logo.classList.contains('c')
 
 
 

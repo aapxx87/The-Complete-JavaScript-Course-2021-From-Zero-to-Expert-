@@ -40,6 +40,80 @@ document.addEventListener('keydown', function (e) {
 });
 
 
+// Step 1
+const btnScrollTo = document.querySelector('.btn--scroll-to')
+const section1 = document.querySelector('#section--1')
+
+
+btnScrollTo.addEventListener('click', function (e) {
+
+  // задаем координаты элементы до которого хотим проскролить
+  const s1coords = section1.getBoundingClientRect()
+  console.log(s1coords);
+
+  // получим координаты текущего элемента - то есть самой кнопки
+  // console.log(e.target.getBoundingClientRect());
+
+  // мы можем получать текущие координаты viewport
+  // console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset);
+
+  // мы можем получить размеры прямоугольника текущего viewport
+  // console.log('height/width viewport', document.documentElement.clientHeight, document.documentElement.clientWidth);
+
+  // Но нам нужны координаты секции до которой нужно проскролить - указываем координаты left и top
+  // Scrolling
+  // но в текущем виде рассчет идет строго от верха экрана, а не от текущего viewport, то есть если мы сместим экран, то будет смотрется кривовато
+  // window.scrollTo(s1coords.left, s1coords.top)
+
+  // window.scrollTo(s1coords.left + window.pageXOffset, s1coords.top + window.pageYOffset)
+
+
+  // window.scrollTo({
+  //   left: s1coords.left + window.pageXOffset,
+  //   top: s1coords.top + window.pageYOffset,
+  //   behavior: 'smooth'
+  // })
+
+  // более простой вариант
+  section1.scrollIntoView({ behavior: 'smooth' })
+
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -122,34 +196,34 @@ document.querySelector('.btn--close-cookie').addEventListener('click', function 
 
 
 
-// Step 1
+// 184
 // Styles
-message.style.backgroundColor = '#37383d'
-message.style.width = '120%'
+// message.style.backgroundColor = '#37383d'
+// message.style.width = '120%'
 
 // так мы можем получить только стили, которые пределили в ручную
-console.log(message.style.height);
-console.log(message.style.backgroundColor);
+// console.log(message.style.height);
+// console.log(message.style.backgroundColor);
 
 // получитьь стили мы можем при помощи
-console.log(getComputedStyle(message)); // получим огромный объект со списком стилей
+// console.log(getComputedStyle(message)); // получим огромный объект со списком стилей
 
-// правильнее указать какой именно стиль нам нужен 
-console.log(getComputedStyle(message).color);
-console.log(getComputedStyle(message).height);
+// // правильнее указать какой именно стиль нам нужен 
+// console.log(getComputedStyle(message).color);
+// console.log(getComputedStyle(message).height);
 
 // пример изменния стиля
 message.style.height = Number.parseFloat(getComputedStyle(message).height, 10) + 30 + 'px'
 
 // пример работы с переменными (которые лежат в css в root)
-document.documentElement.style.setProperty('--color-primary', 'orangered')
+// document.documentElement.style.setProperty('--color-primary', 'orangered')
 
 
 // Attributes
 const logo = document.querySelector('.nav__logo')
-console.log(logo.src);
-console.log(logo.id);
-console.log(logo.className);
+// console.log(logo.src);
+// console.log(logo.id);
+// console.log(logo.className);
 
 // Set attributes
 logo.alt = 'bla bla bla'
@@ -158,18 +232,18 @@ logo.alt = 'bla bla bla'
 logo.setAttribute('company', 'Bankist')
 
 // Non-standart
-console.log(logo.designer);  // не работает
-console.log(logo.getAttribute('designer'));  // рабтает
+// console.log(logo.designer);  // не работает
+// console.log(logo.getAttribute('designer'));  // рабтает
 
 // Data attributes - атрибуты, которые начинаются с data
-console.log(logo.dataset.versionNumber);
+// console.log(logo.dataset.versionNumber);
 
 
 // Classes
-logo.classList.add('c', 'j')
-logo.classList.remove('c', 'j')
-logo.classList.toggle('c')
-logo.classList.contains('c')
+// logo.classList.add('c', 'j')
+// logo.classList.remove('c', 'j')
+// logo.classList.toggle('c')
+// logo.classList.contains('c')
 
 
 

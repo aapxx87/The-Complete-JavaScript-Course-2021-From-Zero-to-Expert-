@@ -308,32 +308,32 @@ document.querySelector('.nav__link').addEventListener('click', function (e) {
 
 
 
-// Step 1 - h1 'When banking meets minimalist"
-const h1 = document.querySelector('h1')
+// 190
+// const h1 = document.querySelector('h1')
 
-// Going downwards: child
-console.log(h1.querySelectorAll('.highlight'));
-console.log(h1.childNodes);
-console.log(h1.children);
+// // Going downwards: child
+// console.log(h1.querySelectorAll('.highlight'));
+// console.log(h1.childNodes);
+// console.log(h1.children);
 
-h1.firstElementChild.style.color = 'white'
-h1.lastElementChild.style.color = 'white'
+// h1.firstElementChild.style.color = 'white'
+// h1.lastElementChild.style.color = 'white'
 
-// Going upwards: parents
-console.log(h1.parentNode);
-console.log(h1.parentElement);
-
-
-// находит ближайший родительский элемент с классом header в нашем случае
-h1.closest('.header').style.background = 'var(--gradient-secondary)'
+// // Going upwards: parents
+// console.log(h1.parentNode);
+// console.log(h1.parentElement);
 
 
-// Going sideways: siblings
-console.log(h1.previousElementSibling);
-console.log(h1.nextElementSibling);
+// // находит ближайший родительский элемент с классом header в нашем случае
+// h1.closest('.header').style.background = 'var(--gradient-secondary)'
 
 
-console.log(h1.previousSibling);
-console.log(h1.nextSibling);
+// // Going sideways: siblings
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextElementSibling);
 
-console.log(h1.parentElement.children);
+
+// console.log(h1.previousSibling);
+// console.log(h1.nextSibling);
+
+// console.log(h1.parentElement.children);

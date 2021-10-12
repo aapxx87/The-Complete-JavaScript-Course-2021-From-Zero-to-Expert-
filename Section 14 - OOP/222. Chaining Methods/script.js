@@ -466,6 +466,7 @@ const jay = Object.create(StudentProto)
 // 219 - создаем класс на примере Bankist
 
 
+// 221
 // 1) Public fields
 // 2) Private fields
 // 3) Public methods
@@ -473,13 +474,11 @@ const jay = Object.create(StudentProto)
 
 class Account {
 
+  // 221
   // 1) Public fields (instances)
   locale = navigator.language;
-
-
   // 2) Private fields (instances - not in prototype)
   #movements = [];
-
   // pin мы получаем из инпута
   #pin;
 
@@ -505,16 +504,20 @@ class Account {
 
   deposit(val) {
     this.#movements.push(val)
+    // this - это и есть наш объект acc
+    return this
   }
 
   withdrow(val) {
     this.deposit(-val)
+    return this
   }
 
   requestLoan(val) {
     if (this._approveLoan(val)) {
       this.deposit(val)
       console.log('Loan approved');
+      return this
     }
   }
 
@@ -539,13 +542,22 @@ acc1.deposit(250)
 acc1.withdrow(140)
 acc1.requestLoan(1000)
 
-console.log(acc1);
+// console.log(acc1);
 
-console.log(acc1.getMovements());
+// console.log(acc1.getMovements());
 
 // console.log(acc1.#pin);
 
-acc1.getPin()
+// acc1.getPin()
+
+
+// Chaining
+
+// в таком виде конструкция не работает, так как первый метод deposit(300) ничего не возвращает, а точнее мы получаем undefined и второй метод deposit(500) вызывается у undefined и получаем в итоге ошибку
+acc1.deposit(300).deposit(500).withdrow(35).requestLoan(25000).withdrow(4000)
+// нам нужно чтобы результатом вызова данного метода (acc1.deposit(300)) был acc1 и мы смогли продолжить вызыватьу него методы - добавляем в метод deposit return и аналогично делаем у других методов
+
+console.log(acc1.getMovements());
 
 
 

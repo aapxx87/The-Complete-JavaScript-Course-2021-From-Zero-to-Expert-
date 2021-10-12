@@ -259,20 +259,20 @@ account.latest = 50
 
 // 214 - Challenge 2
 
-class CarES6 {
-  constructor(make, speed) {
-    this.make = make,
-      this.speed = speed
-  }
+// class CarES6 {
+//   constructor(make, speed) {
+//     this.make = make,
+//       this.speed = speed
+//   }
 
-  get speedUs() {
-    // this.speed = this.speed / 1.6
+//   get speedUs() {
+//     // this.speed = this.speed / 1.6
 
-    console.log(this.speed / 1.6);
-  }
-}
+//     console.log(this.speed / 1.6);
+//   }
+// }
 
-const car3 = new CarES6('Ford', 120)
+// const car3 = new CarES6('Ford', 120)
 
 // console.log(car3);
 
@@ -327,34 +327,34 @@ const mike = new Student('Mike', 2020, 'Computer Science')
 // 216 - Challenge 3
 
 
-const Car = function (make, speed) {
-  this.make = make;
-  this.speed = speed;
-}
+// const Car = function (make, speed) {
+//   this.make = make;
+//   this.speed = speed;
+// }
 
-Car.prototype.like = function () {
-  console.log(`Brand ${this.make} is cool`);
-}
+// Car.prototype.like = function () {
+//   console.log(`Brand ${this.make} is cool`);
+// }
 
-const EV = function (make, speed, charge) {
-  Car.call(this, make, speed);
-  this.charge = charge;
-}
+// const EV = function (make, speed, charge) {
+//   Car.call(this, make, speed);
+//   this.charge = charge;
+// }
 
-EV.prototype = Object.create(Car.prototype)
+// EV.prototype = Object.create(Car.prototype)
 
-EV.prototype.chargeBattery = function (chargeTo) {
-  this.charge = chargeTo
-}
+// EV.prototype.chargeBattery = function (chargeTo) {
+//   this.charge = chargeTo
+// }
 
-EV.prototype.accelerate = function () {
-  this.speed = this.speed + 20;
-  this.charge = this.charge - 1
-  console.log(`${this.make} going at ${this.speed} with charge ${this.charge}`);
-}
+// EV.prototype.accelerate = function () {
+//   this.speed = this.speed + 20;
+//   this.charge = this.charge - 1
+//   console.log(`${this.make} going at ${this.speed} with charge ${this.charge}`);
+// }
 
 
-const tesla = new EV('tesla', 120, 65)
+// const tesla = new EV('tesla', 120, 65)
 
 // tesla.chargeBattery(93)
 
@@ -466,6 +466,7 @@ const jay = Object.create(StudentProto)
 // 219 - создаем класс на примере Bankist
 
 
+// 221
 // 1) Public fields
 // 2) Private fields
 // 3) Public methods
@@ -473,13 +474,11 @@ const jay = Object.create(StudentProto)
 
 class Account {
 
+  // 221
   // 1) Public fields (instances)
   locale = navigator.language;
-
-
   // 2) Private fields (instances - not in prototype)
   #movements = [];
-
   // pin мы получаем из инпута
   #pin;
 
@@ -505,16 +504,21 @@ class Account {
 
   deposit(val) {
     this.#movements.push(val)
+    // 222
+    // this - это и есть наш объект acc
+    return this
   }
 
   withdrow(val) {
     this.deposit(-val)
+    return this
   }
 
   requestLoan(val) {
     if (this._approveLoan(val)) {
       this.deposit(val)
       console.log('Loan approved');
+      return this
     }
   }
 
@@ -539,14 +543,91 @@ acc1.deposit(250)
 acc1.withdrow(140)
 acc1.requestLoan(1000)
 
-console.log(acc1);
+// console.log(acc1);
 
-console.log(acc1.getMovements());
+// console.log(acc1.getMovements());
 
 // console.log(acc1.#pin);
 
-acc1.getPin()
+// acc1.getPin()
 
+
+// 222 - Chaining
+
+// в таком виде конструкция не работает, так как первый метод deposit(300) ничего не возвращает, а точнее мы получаем undefined и второй метод deposit(500) вызывается у undefined и получаем в итоге ошибку
+acc1.deposit(300).deposit(500).withdrow(35).requestLoan(25000).withdrow(4000)
+// нам нужно чтобы результатом вызова данного метода (acc1.deposit(300)) был acc1 и мы смогли продолжить вызыватьу него методы - добавляем в метод deposit return и аналогично делаем у других методов
+
+// console.log(acc1.getMovements());
+
+
+
+// Challenge 4
+
+
+// const Car = function (make, speed) {
+//   this.make = make;
+//   this.speed = speed;
+// }
+
+// Car.prototype.like = function () {
+//   console.log(`Brand ${this.make} is cool`);
+// }
+
+// const EV = function (make, speed, charge) {
+//   Car.call(this, make, speed);
+//   this.charge = charge;
+// }
+
+// EV.prototype = Object.create(Car.prototype)
+
+// EV.prototype.chargeBattery = function (chargeTo) {
+//   this.charge = chargeTo
+// }
+
+// EV.prototype.accelerate = function () {
+//   this.speed = this.speed + 20;
+//   this.charge = this.charge - 1
+//   console.log(`${this.make} going at ${this.speed} with charge ${this.charge}`);
+// }
+
+
+// const tesla = new EV('tesla', 120, 65)
+
+
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+}
+
+class EVCL extends CarCl {
+
+  #charge;
+
+  constructor(make, speed, charge) {
+    super(make, speed)
+    this.#charge = charge
+  }
+
+  getCharge() {
+    console.log(`${this.#charge}`);
+  }
+
+  set accelerate(val) {
+    this.speed += val
+    this.#charge -= 10
+    console.log(`Speed is ${this.speed}, charge is ${this.#charge}`);
+  }
+}
+
+
+const tesla = new EVCL('tesla', 120, 65)
+
+tesla.accelerate = 20
+
+tesla.getCharge()
 
 
 

@@ -15,24 +15,17 @@ const inputElevation = document.querySelector('.form__input--elevation');
 // let map, mapEvent
 
 
-// Step 1 - создаем класс для App (это шаблон из которого потом создадим инстанс аппа чтобы все заработало)
+// 234
 class App {
 
-  // Step 3 - private instance properties
   #map;
   #mapEvent;
 
-  // в нашем случае конструктор остается пустым
-  // мы могли бы дать возможность сторонним разработчикам кастомизировать некоторые параметры, тогда эти аргументы нужны бы были
   constructor() {
-    // 2.1
+
     this._getPosition()
 
-    // Step 3
-    // 232
-    // this._newWorkout - вставляем, но не вызываем, this внутри EventListener указывает на form а не объект App, фикс - добавляем bind(this)
     form.addEventListener('submit', this._newWorkout.bind(this))
-
 
     // 232
     inputType.addEventListener('change', this._toggleElevationField.bind(this))
@@ -50,7 +43,6 @@ class App {
         function () {
           alert('Could not get your position')
         })
-
     }
 
   }
@@ -104,8 +96,6 @@ class App {
   // метод создания новой тренировки
   _newWorkout(e) {
 
-    // 3.1
-
     e.preventDefault()
 
     // Clear input fields
@@ -131,13 +121,8 @@ class App {
 
 
 
-// Step 2 - тут мы не передаем никаких аргументов
+// 234
 const app = new App()
-
-// 2.1 - вызываем метод определения текущей позиции
-// app._getPosition()
-// но мы можем сделать по другому. Метод который вызывается сразу как создается инстанс - это constructor. То есть как только старница загружается, мы сразу создаем новый класс, который сразу запускает метод constructor автоматически, то есть мы можем перенести определение гео позиции прямо в него
-
 
 
 

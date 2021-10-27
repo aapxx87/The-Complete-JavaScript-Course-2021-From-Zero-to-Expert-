@@ -15,11 +15,10 @@ const inputElevation = document.querySelector('.form__input--elevation');
 // let map, mapEvent
 
 
-// Step 1
+// 235
 class Workout {
 
   date = new Date()
-  // в идеале мы используем различные библиотеки для того, чтобы генерить Id, но сейчас возьмем для id текузую дату6 конвертнем ее в строку и заберем последние 10 знаков
   id = (Date.now() + '').slice(-10)
 
   constructor(coords, distance, duration) {
@@ -29,7 +28,7 @@ class Workout {
   }
 }
 
-// Step 2
+// 235
 class Running extends Workout {
   constructor(coords, distance, duration, cadence) {
     super(coords, distance, duration);
@@ -60,11 +59,6 @@ class Cycling extends Workout {
   }
 
 }
-
-const run1 = new Running([39, -12], 5.2, 24, 178)
-const cycle1 = new Cycling([39, -12], 27, 95, 523)
-
-console.log(run1, cycle1);
 
 
 
@@ -158,23 +152,33 @@ class App {
   // метод создания новой тренировки
   _newWorkout(e) {
 
-    e.preventDefault()
+    // создадим фукнцию хелпер для валидации данных на факт их числовой принадлежности
+    const validInputs = (...inputs) => inputs.every(inp => Number.isFinite(inp))
 
-    // Clear input fields
-    inputDistance.value = inputDuration.value = inputCadence.value = ''
+    // Step 1
+    // get data from form
 
-    const { lat, lng } = this.#mapEvent.latlng
+    const type = inputType.value
+    const distance = +inputDistance.value
+    const duration = +inputDuration.value
 
-    L.marker([lat, lng]).addTo(this.#map)
-      .bindPopup(L.popup({
-        maxWidth: 250,
-        minWidth: 100,
-        autoClose: false,
-        closeOnClick: false,
-        className: 'running-popup'
-      }))
-      .setPopupContent('Workout')
-      .openPopup();
+    // if workout running, create running object
+    if (type === 'running') {
+      const cadence = +inputCadence.value
+
+      // check if data is valid
+      if (!Number.isFinite(distance) || !Number.isFinite(duration) || !Number.isFinite(cadence)) return alert('Not a Positive Number')
+
+    }
+
+    // if workout cycling, create cycling object
+    if (type === 'cycling') {
+      const cadence = +inputElevation.value
+    }
+
+    // add new object to workout array
+
+    // render workout on a map as marker
 
   }
 

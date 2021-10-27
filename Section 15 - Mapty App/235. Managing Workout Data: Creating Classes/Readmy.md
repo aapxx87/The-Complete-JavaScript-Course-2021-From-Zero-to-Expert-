@@ -9,7 +9,8 @@ link: https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/
 
 
 
-
 [Steps]
+1) Имплементируем класс тренировки WorkOut, это общий класс и для бега и для велосипеда
+2) Создадим child классы от основного WorkOut
 
 

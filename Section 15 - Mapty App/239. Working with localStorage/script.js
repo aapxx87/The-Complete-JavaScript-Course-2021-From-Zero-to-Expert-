@@ -1,7 +1,6 @@
 'use strict';
 
-// prettier-ignore
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
@@ -20,23 +19,39 @@ class Workout {
 
   date = new Date()
   id = (Date.now() + '').slice(-10)
+  clicks = 0
 
   constructor(coords, distance, duration) {
     this.coords = coords; // [lat, lng]
-    this.distance = distance; // in km 
+    this.distance = distance; // in km
     this.duration = duration; // in min
   }
+
+  // 237
+  _setDescription() {
+    // prettier-ignore
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`
+  }
+
+  click() {
+    this.click++
+  }
 }
+
+
 
 // 235
 class Running extends Workout {
   type = 'running'
   constructor(coords, distance, duration, cadence) {
     super(coords, distance, duration);
-    this.calcPace()
+    this.calcPace();
+    this._setDescription()
   }
 
-  // создаем метод для рассчета Темпа для данного вида тренировок
+  // 237
   calcPace() {
     // min/km
     // создаем новое свойство 
@@ -51,7 +66,8 @@ class Cycling extends Workout {
   constructor(coords, distance, duration, elevetionGain) {
     super(coords, distance, duration);
     this.elevetionGain = elevetionGain;
-    this.calcSpeed()
+    this.calcSpeed();
+    this._setDescription()
   }
 
   calcSpeed() {
@@ -78,7 +94,7 @@ class App {
 
   #map;
   #mapEvent;
-  // создадим в объекте пустой массив для пуша в него тренировок
+  // 237
   #workouts = []
 
 
@@ -86,10 +102,15 @@ class App {
 
     this._getPosition()
 
+    this._getLocalStorage()
+
     form.addEventListener('submit', this._newWorkout.bind(this))
 
     // 232
     inputType.addEventListener('change', this._toggleElevationField.bind(this))
+
+    // Step 1
+    containerWorkouts.addEventListener('click', this._moveToPopup.bind(this))
 
   }
 
@@ -114,7 +135,7 @@ class App {
     const { latitude } = position.coords
     const { longitude } = position.coords
 
-    console.log(`https://www.google.fr/maps/@${latitude},${longitude}`);
+    // console.log(`https://www.google.fr/maps/@${latitude},${longitude}`);
 
     // 230
     const coords = [latitude, longitude]
@@ -129,6 +150,10 @@ class App {
     // 231
     // Handling clicks on map
     this.#map.on('click', this._showForm.bind(this))
+
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work)
+    })
 
   }
 
@@ -146,6 +171,19 @@ class App {
 
   }
 
+  _hideForm() {
+
+    inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = ''
+
+    form.style.display = 'none'
+    form.classList.add('hidden')
+
+    setTimeout(function () {
+      form.style.display = 'grid'
+    }, 1000)
+
+  }
+
   // метод переключения типа тренирровки
   _toggleElevationField() {
 
@@ -155,6 +193,7 @@ class App {
   }
 
   // метод создания новой тренировки
+  // 237
   _newWorkout(e) {
 
     e.preventDefault()
@@ -167,7 +206,7 @@ class App {
 
 
 
-    // Step 1
+    // 236
     // get data from form
 
     const type = inputType.value
@@ -199,7 +238,7 @@ class App {
       workout = new Running([lat, lng], distance, duration, cadence)
 
       // пушим созданную тренировку в массив с тренировками
-      this.#workouts.push(workout)
+      // this.#workouts.push(workout)
 
 
     }
@@ -220,20 +259,38 @@ class App {
     }
 
     // add new object to workout array
-
-    // пушим созданную тренировку в массив с тренировками
     this.#workouts.push(workout)
     console.log(workout);
 
+    // Render workout on list
+    // Step 1
+    this._renderWorkout(workout)
+
+
+
+    // пушим созданную тренировку в массив с тренировками
+
+
 
     // render workout on a map as marker
-    this.renderWorkoutMarker(workout)
+    this._renderWorkoutMarker(workout)
+
+    // Hide form + clear input fields
+    this._hideForm()
+
+
+    // Step 1
+    // Set local storage to all workouts
+    this._setLocalStorage()
+
 
 
   }
 
+
+  // 236
   // создадим отдельный метод для рендеринга маркера на карте
-  renderWorkoutMarker(workout) {
+  _renderWorkoutMarker(workout) {
 
     L.marker(workout.coords).addTo(this.#map)
       .bindPopup(L.popup({
@@ -243,8 +300,130 @@ class App {
         closeOnClick: false,
         className: `${workout.type}-popup`
       }))
-      .setPopupContent(`${workout.distance}`)
+      .setPopupContent(`${workout.description}`)
       .openPopup();
+
+  }
+
+  // 237
+  _renderWorkout(workout) {
+
+
+    let html = `
+    <li class="workout workout--${workout.type}" data-id="${workout.id}">
+          <h2 class="workout__title">${workout.description}</h2>
+          <div class="workout__details">
+            <span class="workout__icon">${workout.type === 'running' ? '🏃‍♂️' : '🏃‍♂️'
+      }</span>
+            <span class="workout__value">${workout.distance}</span>
+            <span class="workout__unit">km</span>
+          </div >
+  <div class="workout__details">
+    <span class="workout__icon">⏱</span>
+    <span class="workout__value">${workout.duration}</span>
+    <span class="workout__unit">min</span>
+  </div>
+  `
+
+    if (workout.type === 'running') {
+      html += `
+      <div class="workout__details">
+        <span class="workout__icon">⚡️</span>
+        <span class="workout__value">${workout.pace.toFixed(1)}</span>
+        <span class="workout__unit">min/km</span>
+      </div>
+      <div class="workout__details">
+        <span class="workout__icon">🦶🏼</span>
+        <span class="workout__value">${workout.cadence}</span>
+        <span class="workout__unit">spm</span>
+      </div>
+    </li>
+      `
+    }
+
+    if (workout.type === 'cycling') {
+      html += `
+      <div class="workout__details">
+        <span class="workout__icon">⚡️</span>
+        <span class="workout__value">${workout.speed.toFixed(1)}</span>
+        <span class="workout__unit">km/h</span>
+      </div>
+      <div class="workout__details">
+        <span class="workout__icon">⛰</span>
+        <span class="workout__value">${workout.elevation}</span>
+        <span class="workout__unit">m</span>
+      </div>
+     </li>
+      `
+    }
+
+
+    form.insertAdjacentHTML('afterend', html)
+
+  }
+
+
+  // 238
+  _moveToPopup(e) {
+
+    const workoutEl = e.target.closest('.workout')
+
+    // console.log(workoutEl);
+
+    if (!workoutEl) return
+
+    const workout = this.#workouts.find(work => work.id === workoutEl.dataset.id)
+
+    // console.log(workout);
+
+    this.#map.setView(workout.coords, 13, {
+      animate: true,
+      pan: {
+        duration: 1
+      }
+
+    })
+
+
+  }
+
+
+
+  _setLocalStorage() {
+
+
+    // localStorage - это key - value хранилище, сначала передаем в качестве ключа ключ, потом значение
+    // мы можем конвертировать объект в строку
+
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts))
+
+  }
+
+  // Step 1
+  _getLocalStorage() {
+
+    const data = JSON.parse(localStorage.getItem('workouts'))
+
+    // console.log(data);
+
+    if (!data) return
+
+    this.#workouts = data
+
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work)
+    })
+
+  }
+
+  // метод очистки localStorage
+  reset() {
+
+    // очищаем localStorage
+    localStorage.removeItem('workouts')
+
+    // перезагружаем страницу
+    location.reload()
 
   }
 

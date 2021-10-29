@@ -5,8 +5,7 @@ const countriesContainer = document.querySelector('.countries');
 
 ///////////////////////////////////////
 
-// Step 1
-// Создаем отдельную функцию для рендеринга данных в интерфейсе
+// 247
 const renderCountry = function (data, className = '') {
 
   const html = `
@@ -43,20 +42,14 @@ const getCountryAndNeighbour = function (country) {
     const [data] = JSON.parse(this.responseText)
     console.log(data);
 
-    // 1.1 - вызываем фукнцию рендеринга данных в интерфейс
-    // Render country 1
+    // 247
     renderCountry(data)
 
-    // Step 2
-    // Get neighbour country
-    // так как borders - это массив с объектом, сразу деструктурируем его, но в данном случае заберем только первый элемент, который актуален для кейса с Португалией 
+    // 247
     const [neighbour] = data.borders
     console.log(neighbour);
 
-    // если границ нет совсем (чекаем), то сразу возвращаемся
     if (!neighbour) return
-
-    // но если границы есть, то есть neighbour существует, то осуществляем следующий вызов
 
     // AJAX call country 2
     const request2 = new XMLHttpRequest()
@@ -74,16 +67,13 @@ const getCountryAndNeighbour = function (country) {
 
     })
 
-
-
-
   })
 
 }
 
 
 getCountryAndNeighbour('portugal')
-// getCountrydata('russia')
+
 
 
 

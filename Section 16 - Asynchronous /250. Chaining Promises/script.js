@@ -84,9 +84,7 @@ const renderCountry = function (data, className = '') {
 //   request.open('GET', `https://restcountries.com/v2/name/${country}`)
 //   request.send()
 
-// Fetch API - сохраняем в переменную
-// в Fetch мы можем определить много еще параметров (объект с опциями), но пок ограничимся одним
-// в даннмо случае Fetch вернет Promise, который и сохранит в переменную
+// Fetch API
 const request = fetch('https://restcountries.com/v2/name/portugal')
 
 // console.log(request);
@@ -103,28 +101,22 @@ const getCountryData = function (country) {
       renderCountry(data[0])
       console.log(data);
 
-      // Step 1 - выполняем второй запрос 
+      // 250
       const neighbour = data[0].borders[0]
 
       if (!neighbour) return
 
       // Country 2
 
-      // второй ajax call
-      // он вернет еще один promise
       return fetch(`https://restcountries.com/v2/alpha/${neighbour}`)
-
-      // и нам данный promise нужно опять обработать методом then
 
     }).then(function (response) {
 
       return response.json()
-      // получаем опять Promise
 
     }).then(function (data) {
 
       renderCountry(data, 'neighbour')
-      // рендерим данные в интерфейс
 
     })
 
@@ -142,6 +134,9 @@ const getCountryData = function (country) {
 
 // вызываем функцию с fetch
 getCountryData('portugal')
+
+
+
 
 
 

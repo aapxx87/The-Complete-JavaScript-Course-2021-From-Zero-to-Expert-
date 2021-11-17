@@ -28,66 +28,15 @@ const renderCountry = function (data, className = '') {
 
 }
 
-// // 245
-// const getCountryAndNeighbour = function (country) {
-
-//   // AJAX call country 1
-//   const request = new XMLHttpRequest()
-
-//   request.open('GET', `https://restcountries.com/v2/name/${country}`)
-
-//   request.send()
-
-//   request.addEventListener('load', function () {
-
-//     const [data] = JSON.parse(this.responseText)
-//     console.log(data);
-
-//     // 247
-//     renderCountry(data)
-
-//     // 247
-//     const [neighbour] = data.borders
-//     console.log(neighbour);
-
-//     if (!neighbour) return
-
-//     // AJAX call country 2
-//     const request2 = new XMLHttpRequest()
-
-//     request2.open('GET', `https://restcountries.com/v2/alpha/${neighbour}`)
-
-//     request2.send()
-
-//     request2.addEventListener('load', function () {
-
-//       const data2 = JSON.parse(this.responseText)
-//       console.log(data2);
-
-//       renderCountry(data2, 'neighbour')
-
-//     })
-
-//   })
-
-// }
 
 
-// getCountryAndNeighbour('portugal')
-
-
-
-
-// 248
-// пример с XMLhttpRequest
-//   const request = new XMLHttpRequest()
-//   request.open('GET', `https://restcountries.com/v2/name/${country}`)
-//   request.send()
 
 // Fetch API
 const request = fetch('https://restcountries.com/v2/name/portugal')
 
-// console.log(request);
+console.log(request);
+
+
 
 // 249
 const getCountryData = function (country) {
@@ -96,17 +45,19 @@ const getCountryData = function (country) {
 
   fetch(`https://restcountries.com/v2/name/${country}`)
     .then(function (response) {
+      console.log(response);
       return response.json()
     }).then(function (data) {
       renderCountry(data[0])
       console.log(data);
 
-      // 250
+      // сразу забираем из данных соседов страны
       const neighbour = data[0].borders[0]
 
+      // если соседов нет, то сразу завершаем выполнение функции
       if (!neighbour) return
 
-      // Country 2
+      // сразу делаем второй запрос с новым парметром старны  - neighbour - Country 2
 
       return fetch(`https://restcountries.com/v2/alpha/${neighbour}`)
 
@@ -123,14 +74,6 @@ const getCountryData = function (country) {
 }
 
 
-// 250
-// const getCountryData = function (country) {
-
-//   fetch(`https://restcountries.com/v2/name/${country}`)
-//     .then((response) => response.json())
-//     .then((data) => renderCountry(data[0]))
-
-// }
 
 // вызываем функцию с fetch
 getCountryData('portugal')

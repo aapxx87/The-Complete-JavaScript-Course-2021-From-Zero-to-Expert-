@@ -1,0 +1,1 @@
+{"mappings":"AAAA,EAGA,kBAAA,CAFA,QAAA,CACA,SAEA,CAIA,KACA,wBAAA,CACA,gBAEA","sources":["style.css"],"sourcesContent":["* {\n  margin: 0;\n  padding: 0;\n  box-sizing: inherit;\n}\n\n\n\nbody {\n  background-color: rgb(59, 54, 54);\n  min-height: 100vh;\n\n}\n\n\n"],"names":[],"version":3,"file":"index.ced86288.css.map"}

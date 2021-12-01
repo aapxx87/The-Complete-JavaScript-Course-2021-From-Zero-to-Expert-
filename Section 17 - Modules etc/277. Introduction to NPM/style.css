@@ -1,0 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+
+
+body {
+  background-color: rgb(59, 54, 54);
+  min-height: 100vh;
+
+}
+
+

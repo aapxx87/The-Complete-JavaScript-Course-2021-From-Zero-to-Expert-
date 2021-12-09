@@ -1,11 +1,23 @@
 // Importing module
 // пишем импорт
 // пример переименования переменной при экспорте totalPrice as price
+
+
 // import {
 //   addToCart,
 //   totalPrice as price,
 //   totalQuantity
 // } from './shoppingCart.js'
+
+
+import {
+  addToCart,
+  totalPrice as price,
+  totalQuantity
+} from './shoppingCart.js'
+
+
+console.log(totalQuantity)
 
 
 console.log('Importing module');
@@ -28,9 +40,9 @@ console.log('Importing module');
 
 
 // при импорте дефолтных значений мы можем дать любые имена 
-import add from './shoppingCart.js'
-
-add('pizza', 2)
+// import add from './shoppingCart.js'
+//
+// add('pizza', 2)
 
 
 

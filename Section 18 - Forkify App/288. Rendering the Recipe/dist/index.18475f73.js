@@ -1,2 +1,0 @@
-const showRecipe=async function(){try{const e=await fetch("https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bcd07"),i=await e.json();if(!e.ok)throw new Error(`${i.message} (${e.status})`);console.log(i);let{recipe:o}=i.data;o={id:o.id,title:o.title,publisher:o.publisher,sourceUrl:o.source_url,image:o.image_url,servings:o.servings,cookingTime:o.cooking_time,ingredients:o.ingredients},console.log(o)}catch(e){alert(e)}};showRecipe();
-//# sourceMappingURL=index.18475f73.js.map
